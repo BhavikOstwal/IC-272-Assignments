@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from numpy.linalg import inv, det
 import matplotlib.pyplot as plt
+from custom_stats import custom_mean, custom_std, custom_cov
 from sklearn.metrics import confusion_matrix,accuracy_score
 from sklearn.metrics import ConfusionMatrixDisplay
 
@@ -48,12 +49,12 @@ class Bayes_classifier:
     
     def statistics(self):
         if (self.variate==True):
-            uni_means = self.tr_proj.groupby('Species',sort=False).mean().to_numpy().reshape((self.n_c,))
-            uni_stds = self.tr_proj.groupby('Species',sort=False).std(ddof=0).to_numpy().reshape((self.n_c,))
+            uni_means = self.tr_proj.groupby('Species',sort=False).apply(custom_mean).to_numpy().reshape((self.n_c,))
+            uni_stds = self.tr_proj.groupby('Species',sort=False).apply(custom_std).to_numpy().reshape((self.n_c,))
             return uni_means, uni_stds
         else:
-            multi_means = train_df.groupby('Species',sort=False).mean().to_numpy()
-            multi_stds = train_df.groupby('Species',sort=False).cov(ddof=0).to_numpy().reshape((self.n_c,self.n_col,self.n_col)) # reshaped to (3,4,4) so that I can access cov matrices by indices
+            multi_means = train_df.groupby('Species',sort=False).apply(custom_mean).to_numpy()
+            multi_stds = train_df.groupby('Species',sort=False).apply(custom_cov).to_numpy().reshape((self.n_c,self.n_col,self.n_col)) # reshaped to (3,4,4) so that I can access cov matrices by indices
             return multi_means, multi_stds
     
     def L(self,x, i:int):
