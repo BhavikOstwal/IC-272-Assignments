@@ -67,9 +67,8 @@ class Bayes_classifier:
             return  P * class_prob
         else:
             # dist = np.matmul(x-mu, inv(sigma))
-            dist = (x-mu) @ inv(sigma)
+            dist = ((x-mu) @ inv(sigma)) @ ((x-mu).T)
             # dist = np.matmul(dist,(x-mu).T)
-            dist = dist @ ((x-mu).T)
             dist = -dist/2
             P = np.exp(dist) / (pow(2*np.pi,self.n_col/2) * det(sigma)**0.5)
             return P * class_prob

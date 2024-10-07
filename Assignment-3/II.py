@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix,accuracy_score
 from sklearn.metrics import ConfusionMatrixDisplay
 from I import Bayes_classifier, classes_lst, train_df, test_df
 
-## **Testing Time 😎**
+# Testing Time 😎
 X_test_multi = test_df.iloc[:,:-1].to_numpy()
 
 Y_pred_multi = []
